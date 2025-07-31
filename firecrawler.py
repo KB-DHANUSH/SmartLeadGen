@@ -1,9 +1,8 @@
 import requests
-import os
-from dotenv import load_dotenv
+import streamlit as st
 
-load_dotenv()
-FIRECRAWL_API_KEY = os.getenv("FIRECRAWL_API_KEY")
+# ✅ Get API key from Streamlit secrets
+FIRECRAWL_API_KEY = st.secrets["FIRECRAWL_API_KEY"]
 
 def scrape_website(url):
     headers = {

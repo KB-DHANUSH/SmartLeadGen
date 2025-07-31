@@ -1,21 +1,23 @@
-import os
 import json
-from dotenv import load_dotenv
+import streamlit as st
 from firecrawler import scrape_website
 from langchain_google_genai import ChatGoogleGenerativeAI
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import PromptTemplate
 
-load_dotenv()
+# ✅ Get API key from Streamlit secrets
+GOOGLE_API_KEY = st.secrets["GOOGLE_API_KEY"]
 
+# 🔹 Set up Gemini LLM
 llm = ChatGoogleGenerativeAI(
     model="gemini-2.5-flash",
-    google_api_key=os.getenv("GOOGLE_API_KEY"),
+    google_api_key=GOOGLE_API_KEY,
     temperature=0.6
 )
 
 parser = StrOutputParser()
 
+# 🔹 Prompt to generate leads
 lead_gen_prompt = PromptTemplate.from_template("""
 You are a smart business analyst. Generate a list of 5 businesses based on the user's interest below.
 
@@ -28,6 +30,7 @@ Respond only with a JSON list of objects. Each object must include:
 Interest: {interest}
 """)
 
+# 🔹 Function to generate leads
 def generate_leads(interest: str):
     chain = lead_gen_prompt | llm | parser
     response = chain.invoke({"interest": interest})
@@ -43,6 +46,7 @@ def generate_leads(interest: str):
 
     return leads
 
+# 🔹 Enrich each lead with FireCrawl
 def enrich_leads(leads):
     enriched = []
     for lead in leads:
@@ -58,6 +62,7 @@ def enrich_leads(leads):
         enriched.append(lead)
     return enriched
 
+# 🔹 Main function to run everything
 def get_enriched_leads(interest: str):
     print(f"[+] Generating leads for: {interest}")
     leads = generate_leads(interest)

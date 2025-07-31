@@ -45,7 +45,7 @@ Create a .env file in the root directory:
 GOOGLE_API_KEY=your_gemini_key
 FIRECRAWL_API_KEY=your_firecrawl_key
 ```
-For deployment on Streamlit Cloud, use .streamlit/secrets.toml instead of .env.
+#### For deployment on Streamlit Cloud, use .streamlit/secrets.toml instead of .env.
 ---
 5. Run the app 
 ```bash 

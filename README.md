@@ -54,6 +54,7 @@ streamlit run streamlit_app.py
 ---
 # Demo Screenshot
 <img width="1920" height="900" alt="image" src="https://github.com/user-attachments/assets/8744aa4b-1c89-490c-b9cb-1473dde3f073" />
+
 ---
 # Folder Structure
 ```bash
